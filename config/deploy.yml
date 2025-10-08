@@ -7,7 +7,7 @@ image: <%= ENV['REGISTRY_NAME'] %>/store_example
 # Deploy to these servers.
 servers:
   web:
-    - <%= ENV['HOST_NAME'] %>
+    - <%= ENV['SERVER_IP'] %>
   # job:
   #   hosts:
   #     - 192.168.0.1
