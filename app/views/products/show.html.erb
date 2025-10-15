@@ -11,9 +11,6 @@
 
     <%= render "inventory", product: @product %>
 
-    <%= debug @user %>
-    <%= debug @product%>
-
     <% if authenticated? %>
       <%= button_to "Add to Wishlist", add_product_user_wishlist_path(Current.user, product_id: @product.id), method: :post %>
 
