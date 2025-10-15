@@ -23,20 +23,38 @@ class WishlistsController < ApplicationController
   end
 
   def add_product
-    product = Product.find(params[:product_id])
+    product = Product.find_by(id: params[:product_id])
 
-    unless @wishlist.products.include?(product)
-      @wishlist.products << product
+    unless product
+      redirect_to user_wishlist_path(@user), alert: "Product not found."
+      return
+    end
+
+    if @wishlist.products.exists?(id: product.id)
+      redirect_to user_wishlist_path(@user), alert: "Product is already in wishlist."
+      return
+    end
+
+    if @wishlist.products << product
       redirect_to user_wishlist_path(@user), notice: "Product added to wishlist."
     else
-      redirect_to user_wishlist_path(@user), alert: "Product is already in wishlist."
+      redirect_to user_wishlist_path(@user), alert: "Failed to add product to wishlist."
     end
   end
 
   def remove_product
-    product = Product.find(params[:product_id])
-    @wishlist.products.delete(product)
-    redirect_to user_wishlist_path(@user), notice: "Product removed from wishlist."
+    product = Product.find_by(id: params[:product_id])
+
+    unless product
+      redirect_to user_wishlist_path(@user), alert: "Product not found."
+      return
+    end
+
+    if @wishlist.products.delete(product)
+      redirect_to user_wishlist_path(@user), notice: "Product removed from wishlist."
+    else
+      redirect_to user_wishlist_path(@user), alert: "Failed to remove product from wishlist."
+    end
   end
 
   private
@@ -46,17 +64,16 @@ class WishlistsController < ApplicationController
   end
 
   def authorize_user
-    unless Current.user && Current.user.id == @user.id
-      redirect_to root_path, alert: "You can only access your own wishlist."
-    end
+    return if Current.user && Current.user.id == @user.id
+
+    redirect_to root_path, alert: "You can only access your own wishlist."
   end
 
   def set_wishlist
     @wishlist = @user.wishlist
+    return if @wishlist
 
-    unless @wishlist
-      redirect_to root_path, alert: "Wishlist not found. Please create one first."
-    end
+    redirect_to root_path, alert: "Wishlist not found. Please create one first."
   end
 
   def set_or_create_wishlist
