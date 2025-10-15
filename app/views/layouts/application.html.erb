@@ -27,6 +27,9 @@
     <nav>
       <%= link_to "Home", root_path %>
       <% if authenticated? %>
+        <% if Current.user.wishlist %>
+          <%= link_to "My Wishlist", user_wishlist_path(Current.user) %>
+        <% end %>
         <%= link_to "Change Password", edit_password_url(Current.user.password_reset_token) %>
         <%= button_to "Log out", session_path, method: :delete %>
       <% else %>
