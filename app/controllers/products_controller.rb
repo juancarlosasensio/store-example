@@ -8,19 +8,19 @@ class ProductsController < ApplicationController
 
   def show
   end
-  
+
   def new
     @product = Product.new
   end
-  
+
   def create
     @product = Product.new(product_params)
 
     if @product.save
       redirect_to @product, notice: "Product was successfully created."
-    else  
+    else
       render :new, status: :unprocessable_entity
-    end  
+    end
   end
 
   def edit
@@ -43,7 +43,7 @@ class ProductsController < ApplicationController
 
   def set_product
     @product = Product.find(params[:id])
-  end   
+  end
 
   def product_params
     params.expect(product: [ :name, :description, :featured_image, :inventory_count ])
