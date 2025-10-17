@@ -7,16 +7,6 @@ class WishlistsController < ApplicationController
   def show
   end
 
-  def create
-    @wishlist = @user.build_wishlist
-
-    if @wishlist.save
-      redirect_to user_wishlist_path(@user), notice: "Wishlist was successfully created."
-    else
-      redirect_to root_path, alert: "Unable to create wishlist."
-    end
-  end
-
   def destroy
     @wishlist.destroy
     redirect_to root_path, notice: "Wishlist was successfully deleted."
