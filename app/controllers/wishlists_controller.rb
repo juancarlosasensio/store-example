@@ -1,8 +1,8 @@
 class WishlistsController < ApplicationController
   before_action :set_user
   before_action :authorize_user
-  before_action :set_wishlist, only: [:show, :destroy, :remove_product]
-  before_action :set_or_create_wishlist, only: [:add_product]
+  before_action :set_wishlist, only: [ :show, :destroy, :remove_product ]
+  before_action :set_or_create_wishlist, only: [ :add_product ]
 
   def show
   end

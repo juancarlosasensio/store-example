@@ -15,9 +15,9 @@ Rails.application.routes.draw do
   root "products#index"
 
   resources :users do
-    resource :wishlist, only: [:show, :destroy] do
-      post 'add_product/:product_id', to: 'wishlists#add_product', as: :add_product
-      delete 'remove_product/:product_id', to: 'wishlists#remove_product', as: :remove_product
+    resource :wishlist, only: [ :show, :destroy ] do
+      post "add_product/:product_id", to: "wishlists#add_product", as: :add_product
+      delete "remove_product/:product_id", to: "wishlists#remove_product", as: :remove_product
     end
   end
 
